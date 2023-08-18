@@ -20,11 +20,8 @@ def fix_marks(name_schoolkid: str, points=4):
     if not schoolkid:
         return
 
-    marks = Mark.objects.filter(schoolkid=schoolkid, points__lte=3)
-    marks_count = marks.count()
-    for mark in marks:
-        mark.points = points
-        mark.save()
+    marks_count = Mark.objects.filter(
+        schoolkid=schoolkid, points__lte=3).update(points=points)
     print(f'Изменено {marks_count} оценок')
 
 
