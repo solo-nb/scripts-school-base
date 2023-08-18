@@ -3,16 +3,13 @@ from datacenter.models import Commendation, Lesson, Subject
 
 
 def get_schoolkid(name_schoolkid: str) -> Schoolkid:
-    schoolkids = Schoolkid.objects.filter(full_name__contains=name_schoolkid)
-    schoolkids_count = schoolkids.count()
-    if schoolkids_count == 0:
+    try:
+        schoolkid = Schoolkid.objects.get(full_name__contains=name_schoolkid)
+        return schoolkid
+    except Schoolkid.DoesNotExist:
         print('Не найдено ниодного ученика с таким именем')
-        return
-    if schoolkids_count > 1:
+    except Schoolkid.MultipleObjectsReturned:
         print('Найдено несколько учеников с таким именем')
-        return
-
-    return schoolkids.first()
 
 
 def fix_marks(name_schoolkid: str, points=4):
@@ -38,15 +35,15 @@ def remove_chastisements(name_schoolkid: str):
 
 
 def get_last_lesson(name_lesson: str, schoolkid: Schoolkid) -> Lesson:
-    subjects = Subject.objects.filter(
-        title__contains=name_lesson,
-        year_of_study=schoolkid.year_of_study
-    )
-    subjects_count = subjects.count()
-    if subjects_count == 0:
+    try:
+        subjects = Subject.objects.get(
+            title__contains=name_lesson,
+            year_of_study=schoolkid.year_of_study
+        )
+    except Subject.DoesNotExist:
         print('У даннного ученика нет такого предмета')
         return
-    if subjects_count > 1:
+    except Subject.MultipleObjectsReturned:
         print('Найдено несколько предметов с таким наименованием')
         return
 
