@@ -4,10 +4,11 @@ from datacenter.models import Commendation, Lesson, Subject
 
 def get_schoolkid(name_schoolkid: str) -> Schoolkid:
     schoolkids = Schoolkid.objects.filter(full_name__contains=name_schoolkid)
-    if schoolkids.count() == 0:
+    schoolkids_count = schoolkids.count()
+    if schoolkids_count == 0:
         print('Не найдено ниодного ученика с таким именем')
         return
-    if schoolkids.count() > 1:
+    if schoolkids_count > 1:
         print('Найдено несколько учеников с таким именем')
         return
 
@@ -43,10 +44,11 @@ def get_last_lesson(name_lesson: str, schoolkid: Schoolkid) -> Lesson:
         title__contains=name_lesson,
         year_of_study=schoolkid.year_of_study
     )
-    if subjects.count() == 0:
+    subjects_count = subjects.count()
+    if subjects_count == 0:
         print('У даннного ученика нет такого предмета')
         return
-    if subjects.count() > 1:
+    if subjects_count > 1:
         print('Найдено несколько предметов с таким наименованием')
         return
 
