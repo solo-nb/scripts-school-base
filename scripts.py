@@ -66,12 +66,11 @@ def create_commendation(name_schoolkid: str, name_lesson: str,
     if not schoolkid or not lesson:
         return
 
-    commendation = Commendation.objects.create(
+    Commendation.objects.create(
         schoolkid=schoolkid,
         subject=lesson.subject,
         teacher=lesson.teacher,
         text=commendation_text,
         created=lesson.date
     )
-    commendation.save()
     print('Рекомендация создана')
